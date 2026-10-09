@@ -39,3 +39,20 @@ SELECT actual_mode, COUNT(*) AS shipments,
 FROM fact_shipment
 GROUP BY actual_mode
 ORDER BY actual_mode;
+
+-- README key findings: carrier rates and route cost variance.
+SELECT c.carrier_name, COUNT(*) AS shipments,
+    SUM(f.actual_delivery_date <= f.promised_delivery_date) AS on_time_shipments,
+    ROUND(100.0 * SUM(f.actual_delivery_date <= f.promised_delivery_date)
+        / NULLIF(COUNT(*), 0), 2) AS on_time_delivery_pct
+FROM fact_shipment f JOIN dim_carrier c ON c.carrier_id = f.carrier_id
+GROUP BY c.carrier_id, c.carrier_name
+ORDER BY on_time_delivery_pct DESC, c.carrier_id;
+
+SELECT r.origin_city, r.destination_city, COUNT(*) AS shipments,
+    SUM(f.recorded_freight_inr - f.modeled_baseline_inr) AS cost_variance_inr,
+    ROUND(100.0 * SUM(f.recorded_freight_inr - f.modeled_baseline_inr)
+        / NULLIF(SUM(f.modeled_baseline_inr), 0), 2) AS cost_variance_pct
+FROM fact_shipment f JOIN dim_route r ON r.route_id = f.route_id
+GROUP BY r.route_id, r.origin_city, r.destination_city
+ORDER BY cost_variance_inr DESC, r.route_id;

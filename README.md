@@ -1,6 +1,30 @@
 # Manufacturing Logistics Analytics
 
-An independent synthetic manufacturing-logistics portfolio project inspired by my internship learning. It models freight cost and delivery performance for a fictional manufacturer using 2,400 reproducible simulated shipments. This technical extension was independently developed; EY did not commission it. The simulated data and findings do not describe BGL or any client, and contain no confidential operational records.
+An independent synthetic manufacturing-logistics portfolio project inspired by my internship learning. It models freight cost and delivery performance for a fictional manufacturer using 2,400 reproducible simulated shipments. This technical extension was independently developed and was not commissioned by an employer or client. Its simulated data and findings do not describe any real engagement and contain no confidential operational records.
+
+## Dashboard preview
+
+These PNGs are the three existing Power BI pages, exported from Power BI Desktop on October 9, 2026 and converted from its native PDF export. They show the full synthetic dataset with no filters applied.
+
+**Overview**
+
+![Overview: 2,400 synthetic shipments, freight and baseline cards, monthly costs and data completeness](docs/overview.png)
+
+**Carrier performance**
+
+![Carrier performance: delayed shipments, on-time delivery and simulated carrier cost/service comparison](docs/carrier-performance.png)
+
+**Routes and delays**
+
+![Routes and delays: route cost variance, delay reasons and delay rates by actual transport mode](docs/routes-delays.png)
+
+## Key findings
+
+- **Best simulated carrier on-time rate:** Demo Forwarder 03 delivered 388 of 480 shipments on time (**80.83%**). Demo Forwarder 04 had the lowest rate, 349 of 465 (**75.05%**).
+- **Largest total route cost variance:** Mumbai–Houston recorded freight **₹8,570,400.97 above its modeled baseline (17.56%)** across 279 shipments.
+- **Overall:** recorded freight was **12.50% above baseline**, with **521 delayed shipments** and **78.29% on-time delivery**.
+
+The comparisons describe synthetic data generated from illustrative rates, timing and carrier assumptions. They are not evidence of real carrier performance or proven savings. The detailed findings, definitions and limitations appear below; `powerbi/verify_metrics.sql` reproduces the comparisons after loading MySQL.
 
 ## What the project answers
 
@@ -38,6 +62,11 @@ manufacturing-logistics/
 |-- DATA_DICTIONARY.md
 |-- build_dataset.py
 |-- requirements.txt
+|-- LICENSE
+|-- docs/
+|   |-- overview.png
+|   |-- carrier-performance.png
+|   `-- routes-delays.png
 |-- .github/workflows/tests.yml
 |-- .vscode/settings.json
 |-- tests/
@@ -137,6 +166,10 @@ The dialog should show **MySQL Data Provider**. These requirements and the provi
 
 The existing model imports `dim_customer`, `dim_carrier`, `dim_route`, `dim_date` and `fact_shipment` from `localhost` / `portfolio_logistics`. In **File > Options and settings > Data source settings**, choose the MySQL source, edit its permissions, and enter your local MySQL credentials using **Database** authentication. Refresh and clear page filters before comparing cards: expect 2,400 shipments, freight ₹263,524,880.99, baseline ₹234,235,432.40 and 521 delayed shipments. On-time delivery is 78.2917%, displayed as 78% on a whole-percent card. If the host differs, update all five source queries consistently in Power Query. Credentials stay in Power BI's local credential store.
 
+## Verified local execution
+
+On **October 9, 2026**, `src/pipeline.py` completed against the local MySQL database: **3,155 source rows processed**, including **2,400 shipments** and **755 dimension records**. The database run log records `SUCCESS` for run `6be91310-c2fd-442b-b623-d6c37a52791b`; the loader reconciled row counts before committing. This is a local integration run, not a production deployment. Runtime logs and credentials are excluded from Git.
+
 ## Tests and GitHub Actions
 
 Run the database-independent tests from the root:
@@ -157,7 +190,7 @@ The separate local **rollback test** checks that an intentional failure undoes a
 
 Run it only with the local synthetic MySQL database already loaded and `.env` configured. It temporarily changes customer 1 within a transaction and adds a failed run-log entry. It is deliberately named `check_rollback.py` so CI discovery excludes it. It previously passed against local MySQL during development; validation-only and unit-test results do not establish database or Power BI refresh success.
 
-## Three findings from the synthetic data
+## Detailed findings from the synthetic data
 
 These are descriptive results from the committed `data/fact_shipment.csv`, using all 2,400 rows without filters. The read-only queries in `powerbi/verify_metrics.sql` reproduce them after loading MySQL.
 
@@ -205,4 +238,8 @@ The project is designed for a local portfolio environment. It does not include a
 - Validation expects a fixed dataset of 2,400 shipments. Post-load reconciliation checks row counts and selected rules; it is not a full field-by-field comparison. It does not turn this local portfolio demonstration into a production system.
 - CI checks Python/CSV behavior only. MySQL integration and Power BI refresh require the local applications. No scheduler, cloud deployment or production operations are included.
 
-Git includes only source, synthetic CSVs/SQL, documentation, placeholder `.env.example`, CI, VS Code interpreter settings and the text-based Power BI project. `.env`, virtual environments, logs, caches, binary report exports, `variants/`, the old cleanup guide and the unrelated local dependency snapshot are ignored and retained locally. No confidential client data belongs in this repository.
+Git includes only source, synthetic CSVs/SQL, documentation, placeholder `.env.example`, CI, VS Code interpreter settings and the text-based Power BI project. `.env`, virtual environments, logs, caches, binary report exports, `variants/`, old housekeeping notes and dependency snapshots are excluded. The redundant variant, old cleanup guide and dependency snapshot were removed from the project. No confidential client data belongs in this repository.
+
+## License
+
+Original project code and documentation are available under the [MIT License](LICENSE). Bundled third-party Power BI resources and Python dependencies retain their own license terms.
