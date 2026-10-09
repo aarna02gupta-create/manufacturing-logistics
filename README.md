@@ -1,6 +1,6 @@
 # Manufacturing Logistics Analytics
 
-An independent synthetic manufacturing-logistics portfolio project inspired by my internship learning. It models freight cost and delivery performance for a fictional manufacturer using 2,400 reproducible simulated shipments. This technical extension was independently developed; EY did not commission it. The simulated data and findings do not describe BGL or any client, and contain no confidential operational records.
+A manufacturing-logistics analytics portfolio project developed to apply Python, SQL and Power BI skills to freight cost and delivery performance analysis. It uses 2,400 reproducible, computer-generated shipment records for a fictional manufacturer. All business scenarios and routes are illustrative and do not represent any client’s operations.
 
 ## What the project answers
 
