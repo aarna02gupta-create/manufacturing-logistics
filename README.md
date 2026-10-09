@@ -1,6 +1,6 @@
 # Manufacturing Logistics Analytics
 
-A manufacturing-logistics analytics portfolio project developed to apply Python, SQL and Power BI skills to freight cost and delivery performance analysis. It uses 2,400 reproducible, computer-generated shipment records for a fictional manufacturer. All business scenarios and routes are illustrative and do not represent any client’s operations.
+An independent portfolio project built after my internship to apply what I learned, using Python, SQL and Power BI for freight cost and delivery performance analysis. All data is synthetic: 2,400 reproducible, computer-generated shipment records for a fictional manufacturer. All business scenarios and routes are illustrative and do not represent any client’s operations.
 
 ## Dashboard preview
 
@@ -229,6 +229,16 @@ The SQL schema adds primary keys, foreign keys, checks and invoice/baseline reco
 Implemented: deterministic data generation, documented assumptions, CSV extraction and type conversion, pre-load validation, transactional MySQL upserts, rollback, pipeline-run logging, post-load reconciliation, star schema, analytical SQL views, DAX measures and an interactive Power BI report.
 
 The project is designed for a local portfolio environment. It does not include a scheduler, cloud deployment or distributed-processing framework.
+
+## What I learned
+
+I built this as an independent portfolio project after my internship to apply what I learned. All data is synthetic.
+
+- **Clean and validate before analysis:** I learned to check required values, data types, duplicate keys, relationships and cost calculations before loading data and interpreting dashboard results.
+- **Start with a stakeholder's question:** I framed the analysis around freight cost versus a modeled baseline and delivery reliability, then organized the model and report pages around those questions.
+- **Report findings with their limitations:** I explained what the synthetic results show alongside the assumptions behind them, the partial final month and the limits of carrier comparisons. These findings do not demonstrate real business savings or client outcomes.
+
+**What I'd improve next:** I would support a second input batch with stable shipment IDs and reconciliation for that batch, then test new records, corrections and safe reruns beyond the current fixed dataset.
 
 ## Limitations and repository hygiene
 
