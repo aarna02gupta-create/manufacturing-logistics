@@ -1,0 +1,31 @@
+# Credentials: commit only the placeholder example
+.env
+.env.*
+!.env.example
+
+# Environments, caches and runtime output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+logs/
+*.log
+
+# Power BI local credentials/cache and binary exports
+**/.pbi/localSettings.json
+*.abf
+*.pbix
+*.zip
+
+# Old variants and local housekeeping/dependency snapshots
+variants/
+FILE_CLEANUP_GUIDE.txt
+requirements-lock.txt
+
+# Share only the project interpreter configuration
+.vscode/*
+!.vscode/settings.json
+node_modules/
+dist/
+target/

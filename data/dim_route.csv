@@ -1,0 +1,9 @@
+route_id,origin_city,destination_city,destination_country,route_type,rate_factor,data_type
+1,Pune,Chennai,India,Domestic,1.00,SYNTHETIC
+2,Pune,Delhi,India,Domestic,1.40,SYNTHETIC
+3,Pune,Bengaluru,India,Domestic,1.10,SYNTHETIC
+4,Pune,Ahmedabad,India,Domestic,0.80,SYNTHETIC
+5,Mumbai,Hamburg,Germany,Export,1.20,SYNTHETIC
+6,Mumbai,Houston,United States,Export,1.60,SYNTHETIC
+7,Mumbai,Dubai,United Arab Emirates,Export,0.80,SYNTHETIC
+8,Mumbai,Singapore,Singapore,Export,0.90,SYNTHETIC

@@ -1,0 +1,4 @@
+mode,reference_rate_inr_kg,planned_transit_days,baseline_fuel_fraction,baseline_handling_inr,data_type
+Road,18,5,0.12,1800.00,SYNTHETIC_ASSUMPTION
+Sea,32,24,0.12,1800.00,SYNTHETIC_ASSUMPTION
+Air,210,4,0.12,1800.00,SYNTHETIC_ASSUMPTION

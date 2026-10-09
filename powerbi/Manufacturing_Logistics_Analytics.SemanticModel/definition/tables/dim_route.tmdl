@@ -1,0 +1,81 @@
+table dim_route
+	lineageTag: ddfba452-0bcc-40c3-9e32-7608fc1a4d3b
+
+	column route_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 16779ba3-9507-4564-9882-d746ae8c680d
+		summarizeBy: none
+		sourceColumn: route_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_city
+		dataType: string
+		lineageTag: 89bb4e03-f61b-4dcf-a4aa-6255aa01c784
+		summarizeBy: none
+		sourceColumn: origin_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column destination_city
+		dataType: string
+		lineageTag: 8739939d-d4a6-42e2-b1df-97de233a1b2c
+		summarizeBy: none
+		sourceColumn: destination_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column destination_country
+		dataType: string
+		lineageTag: cb784d39-1d2f-46d9-b481-8acf2e441149
+		summarizeBy: none
+		sourceColumn: destination_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column route_type
+		dataType: string
+		lineageTag: e9f89bf7-5956-4c0a-ac58-7a44c8518ba0
+		summarizeBy: none
+		sourceColumn: route_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column rate_factor
+		dataType: double
+		lineageTag: bfabf2a6-2541-48ba-9b8d-32ee47b2e11e
+		summarizeBy: none
+		sourceColumn: rate_factor
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column data_type
+		dataType: string
+		lineageTag: ce26a174-3f16-4f7a-b22d-6ddf58305471
+		summarizeBy: none
+		sourceColumn: data_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Route =
+			
+			dim_route[origin_city]
+			    & " → "
+			    & dim_route[destination_city]
+		lineageTag: dabc0505-8323-4256-94ab-8ac2b848e76f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_route = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost", "portfolio_logistics"),
+				  #"Navigation 1" = Source{[Schema = "portfolio_logistics", Item = "dim_route"]}[Data]
+				in
+				  #"Navigation 1"
+

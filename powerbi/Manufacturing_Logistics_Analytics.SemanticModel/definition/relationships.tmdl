@@ -1,0 +1,39 @@
+relationship e89f92b7-3a68-413a-9e3c-55faafa30f96
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.calendar_date
+	toColumn: LocalDateTable_cb2dfc5f-d15b-40e7-bf18-3057010abc86.Date
+
+relationship e164e636-fb91-4bcf-8440-5ebac409dad7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_shipment.promised_delivery_date
+	toColumn: LocalDateTable_fa40f222-3738-4230-b467-6108cf08e753.Date
+
+relationship ff07b059-b7ce-49c5-8803-76c1aa69ed2f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_shipment.actual_delivery_date
+	toColumn: LocalDateTable_d2c7dd53-9f02-485a-8568-6c10341676f7.Date
+
+relationship 268468a0-6c49-457d-8987-fb0b7f183045
+	fromColumn: fact_shipment.carrier_id
+	toColumn: dim_carrier.carrier_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 2278f23c-ed1f-4c1b-89de-9afcc49ea9b1
+	fromColumn: fact_shipment.customer_id
+	toColumn: dim_customer.customer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 41cc9e16-64fa-45cf-9890-67069eaba315
+	fromColumn: fact_shipment.ship_date_key
+	toColumn: dim_date.date_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 91084c8e-c367-427a-aefe-e6f91b2eb62f
+	fromColumn: fact_shipment.route_id
+	toColumn: dim_route.route_id
+
+	annotation PBI_IsFromSource = FS
+

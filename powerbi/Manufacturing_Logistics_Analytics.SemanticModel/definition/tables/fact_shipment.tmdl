@@ -1,0 +1,301 @@
+table fact_shipment
+	lineageTag: 24076028-f842-4f30-8497-a5b3fa252560
+
+	measure 'Total Shipments' = COUNTROWS(fact_shipment)
+		formatString: 0
+		lineageTag: 6a459a58-f40a-4d67-9e80-2ac76b40f58c
+
+	measure 'Recorded Freight INR' =
+			
+			SUM(fact_shipment[recorded_freight_inr])
+		formatString: #,0.00
+		lineageTag: 0a3a24f1-7508-40ab-8ee9-847492baae93
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Modeled Baseline INR' =
+			
+			SUM(fact_shipment[modeled_baseline_inr])
+		formatString: #,0.00
+		lineageTag: c772c014-5b80-4736-8aae-45a603da5a93
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cost Variance INR' =
+			
+			[Recorded Freight INR] - [Modeled Baseline INR]
+		formatString: #,0.00
+		lineageTag: a2c4bafb-1a94-4a62-8518-d1e60221c37e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cost Variance %' =
+			
+			DIVIDE([Cost Variance INR], [Modeled Baseline INR])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d345f54e-ef8e-49ca-ae2e-c8106263b03f
+
+	measure 'Delayed Shipments' = COALESCE(CALCULATE([Total Shipments], FILTER(fact_shipment, NOT ISBLANK(fact_shipment[actual_delivery_date]) && NOT ISBLANK(fact_shipment[promised_delivery_date]) && fact_shipment[actual_delivery_date] > fact_shipment[promised_delivery_date])), 0)
+		formatString: 0
+		lineageTag: fd387573-d06b-4308-8d3d-06f829564388
+
+	measure 'On-Time Shipments' = COALESCE(CALCULATE([Total Shipments], FILTER(fact_shipment, NOT ISBLANK(fact_shipment[actual_delivery_date]) && NOT ISBLANK(fact_shipment[promised_delivery_date]) && fact_shipment[actual_delivery_date] <= fact_shipment[promised_delivery_date])), 0)
+		formatString: 0
+		lineageTag: a7338e68-0bc2-4e87-bc4c-964ec8e917f5
+
+	measure 'On-Time Delivery %' = DIVIDE([On-Time Shipments], [Delivery-Evaluable Shipments])
+		formatString: 0.00%
+		lineageTag: f4d3ea08-5977-4229-8dda-79717625596a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Delay Days' = AVERAGEX(FILTER(fact_shipment, NOT ISBLANK(fact_shipment[actual_delivery_date]) && NOT ISBLANK(fact_shipment[promised_delivery_date]) && fact_shipment[actual_delivery_date] > fact_shipment[promised_delivery_date]), DATEDIFF(fact_shipment[promised_delivery_date], fact_shipment[actual_delivery_date], DAY))
+		formatString: 0.00
+		lineageTag: 907dfda0-921e-4537-bb7e-36ad26a6a21e
+
+	measure 'Delivery-Evaluable Shipments' = [On-Time Shipments] + [Delayed Shipments]
+		formatString: 0
+		lineageTag: 077e2288-7115-4d5a-8d87-91efad400027
+
+	measure 'Missing Delivery Dates' = [Total Shipments] - [Delivery-Evaluable Shipments]
+		formatString: 0
+		lineageTag: 66635c1c-66b5-4a25-8710-4693bb7d3980
+
+	measure 'Freight per Shipment INR' = DIVIDE([Recorded Freight INR], [Total Shipments])
+		formatString: #,0.00
+		lineageTag: a7656427-bb8c-4541-9001-b671a7b29109
+
+	measure 'Delay Rate %' = DIVIDE([Delayed Shipments], [Delivery-Evaluable Shipments])
+		formatString: 0.00%
+		lineageTag: 8c648782-1949-413d-809d-3afeec0027b8
+
+	measure 'Delivery Date Coverage %' = DIVIDE([Delivery-Evaluable Shipments], [Total Shipments])
+		formatString: 0.00%
+		lineageTag: 3f72783f-8046-4877-b603-c3467110a08f
+
+	column shipment_id
+		dataType: string
+		lineageTag: efd7590f-176c-4af8-b088-7c0155ce160b
+		summarizeBy: none
+		sourceColumn: shipment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 11aee39b-8f55-41a3-8cfb-a2e440fe852e
+		summarizeBy: none
+		sourceColumn: ship_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 074e2a4b-14df-4952-b290-6ab088905644
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 22c2ef9b-5f8b-4626-824f-9332cf157135
+		summarizeBy: none
+		sourceColumn: carrier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column route_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b2a26106-c3c8-4b65-afdc-011c14133837
+		summarizeBy: none
+		sourceColumn: route_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column planned_mode
+		dataType: string
+		lineageTag: 451515c0-e556-489f-ba7c-1c8933f05c77
+		summarizeBy: none
+		sourceColumn: planned_mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_mode
+		dataType: string
+		lineageTag: 69a25334-2fbd-47b3-a1c4-933970cc9a47
+		summarizeBy: none
+		sourceColumn: actual_mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column weight_kg
+		dataType: double
+		lineageTag: 9a35c0b0-323f-422a-b023-b46ea07b7818
+		summarizeBy: sum
+		sourceColumn: weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column promised_delivery_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bd8a95d4-4829-40a0-9c23-998bee036eea
+		summarizeBy: none
+		sourceColumn: promised_delivery_date
+
+		variation Variation
+			isDefault
+			relationship: e164e636-fb91-4bcf-8440-5ebac409dad7
+			defaultHierarchy: LocalDateTable_fa40f222-3738-4230-b467-6108cf08e753.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column actual_delivery_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e0bb58a6-021c-4f94-ac36-6dd1ecdb8184
+		summarizeBy: none
+		sourceColumn: actual_delivery_date
+
+		variation Variation
+			isDefault
+			relationship: ff07b059-b7ce-49c5-8803-76c1aa69ed2f
+			defaultHierarchy: LocalDateTable_d2c7dd53-9f02-485a-8568-6c10341676f7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column base_freight_inr
+		dataType: double
+		lineageTag: 5d925e83-6ae1-4368-9191-7eaaf9ec6598
+		summarizeBy: sum
+		sourceColumn: base_freight_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fuel_surcharge_inr
+		dataType: double
+		lineageTag: 770d4f83-2dbd-4f13-8dcf-5a88f306917e
+		summarizeBy: sum
+		sourceColumn: fuel_surcharge_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column handling_charge_inr
+		dataType: double
+		lineageTag: f9eb8490-b07c-4c56-8b2f-a70c40e6eab9
+		summarizeBy: sum
+		sourceColumn: handling_charge_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column expedite_fee_inr
+		dataType: double
+		lineageTag: 16fdf1f7-824e-4408-92b8-99892da05980
+		summarizeBy: sum
+		sourceColumn: expedite_fee_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recorded_freight_inr
+		dataType: double
+		lineageTag: 198d5ff5-9329-4a42-b852-188a8de0852c
+		summarizeBy: sum
+		sourceColumn: recorded_freight_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column baseline_rate_inr_kg
+		dataType: double
+		lineageTag: f75fc251-7906-4b60-87ad-8cb7958f7b5b
+		summarizeBy: sum
+		sourceColumn: baseline_rate_inr_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column baseline_fuel_inr
+		dataType: double
+		lineageTag: d7f000cc-57f4-4f5c-bb6c-720cab60ee0e
+		summarizeBy: sum
+		sourceColumn: baseline_fuel_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column baseline_handling_inr
+		dataType: double
+		lineageTag: 20393518-29c9-48d7-be8a-7309b1ad76dd
+		summarizeBy: sum
+		sourceColumn: baseline_handling_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column modeled_baseline_inr
+		dataType: double
+		lineageTag: 474ed3f8-4c86-48d8-9d32-55c04eab90cc
+		summarizeBy: sum
+		sourceColumn: modeled_baseline_inr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column expedited_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a864c4e-4cc5-49d2-b62b-8b4dfc72c1c6
+		summarizeBy: sum
+		sourceColumn: expedited_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column delay_reason
+		dataType: string
+		lineageTag: bd94383d-862a-4cdb-bc1f-f5682781d760
+		summarizeBy: none
+		sourceColumn: delay_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_type
+		dataType: string
+		lineageTag: 0ca83e7f-1f2f-4cf3-87c6-65ac1fa57219
+		summarizeBy: none
+		sourceColumn: data_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_shipment = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost", "portfolio_logistics"),
+				  #"Navigation 1" = Source{[Schema = "portfolio_logistics", Item = "fact_shipment"]}[Data]
+				in
+				  #"Navigation 1"
+

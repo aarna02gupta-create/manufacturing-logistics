@@ -1,0 +1,13 @@
+customer_id,customer_name,segment,data_type
+1,Demo Customer 01,Automotive,SYNTHETIC
+2,Demo Customer 02,Industrial,SYNTHETIC
+3,Demo Customer 03,Agricultural,SYNTHETIC
+4,Demo Customer 04,Automotive,SYNTHETIC
+5,Demo Customer 05,Industrial,SYNTHETIC
+6,Demo Customer 06,Agricultural,SYNTHETIC
+7,Demo Customer 07,Automotive,SYNTHETIC
+8,Demo Customer 08,Industrial,SYNTHETIC
+9,Demo Customer 09,Agricultural,SYNTHETIC
+10,Demo Customer 10,Automotive,SYNTHETIC
+11,Demo Customer 11,Industrial,SYNTHETIC
+12,Demo Customer 12,Agricultural,SYNTHETIC

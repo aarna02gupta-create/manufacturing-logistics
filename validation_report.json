@@ -1,0 +1,25 @@
+{
+  "dataset_version": "1.0",
+  "seed": 20260923,
+  "as_of_date": "2026-09-23",
+  "all_records_synthetic": true,
+  "shipment_count": 2400,
+  "months": 20,
+  "ship_date_min": 20250101,
+  "ship_date_max": 20260820,
+  "recorded_freight_inr": "263524880.99",
+  "modeled_baseline_inr": "234235432.40",
+  "late_shipments": 521,
+  "expedited_shipments": 322,
+  "validation": "Passed: unique shipment IDs, foreign keys, required values, positive weights, dates and cost reconciliation.",
+  "mysql_execution": "This generator report validates CSVs only; it does not test MySQL execution.",
+  "csv_sha256": {
+    "dim_carrier.csv": "5f175153cd30574944a3d83e27ead0e1862cae90aa51364d4045463beb2267f1",
+    "dim_customer.csv": "63385b126bcb3c7394ee80b2464f71084da9820fc54109afe17aa2ce98a27bb9",
+    "dim_date.csv": "63604a8bd4e905281ee5a54d179c0e19231e781368210679b4a25c4a1fe65b91",
+    "dim_route.csv": "8de9064270e32e10c72573558e4a0b2349e76198530c9394587eeb6efc66e7f9",
+    "fact_shipment.csv": "c99548879efffe2cb6cc949acf35f0d49611ba75e1f60b479ba29cd2212d4d7c",
+    "generation_assumptions.csv": "168d00690ef29c49b9ce03f74e296783a374d03b4d15b6007cdda58092c90ea8"
+  },
+  "csv_hash_normalization": "LF line endings before SHA-256"
+}

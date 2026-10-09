@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_carrier","dim_customer","dim_date","dim_route","fact_shipment"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_carrier
+ref table dim_customer
+ref table dim_date
+ref table DateTableTemplate_d66f71ac-a826-4eb8-b6eb-b45e0ce40766
+ref table LocalDateTable_cb2dfc5f-d15b-40e7-bf18-3057010abc86
+ref table dim_route
+ref table fact_shipment
+ref table LocalDateTable_fa40f222-3738-4230-b467-6108cf08e753
+ref table LocalDateTable_d2c7dd53-9f02-485a-8568-6c10341676f7
+
+ref cultureInfo en-US
+

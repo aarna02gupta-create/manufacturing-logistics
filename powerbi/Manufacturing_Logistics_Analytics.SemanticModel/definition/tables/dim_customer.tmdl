@@ -1,0 +1,45 @@
+table dim_customer
+	lineageTag: dfe207a9-b948-4659-ada5-b4a3242a3b70
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e06917ae-61af-4f19-8341-02162f3adf83
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: 47a87d56-280e-4aa5-bc78-f9bf9e69d4dc
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment
+		dataType: string
+		lineageTag: 67d2ff2c-637f-4f37-879a-3d4174343b7f
+		summarizeBy: none
+		sourceColumn: segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_type
+		dataType: string
+		lineageTag: 59454ad9-2b2a-4e87-aba4-4f95df6b75ae
+		summarizeBy: none
+		sourceColumn: data_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost", "portfolio_logistics"),
+				  #"Navigation 1" = Source{[Schema = "portfolio_logistics", Item = "dim_customer"]}[Data]
+				in
+				  #"Navigation 1"
+

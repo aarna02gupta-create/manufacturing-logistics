@@ -1,0 +1,1 @@
+"""Manufacturing logistics ingestion pipeline."""

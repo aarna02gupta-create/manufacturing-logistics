@@ -1,0 +1,81 @@
+table dim_date
+	lineageTag: f4b41376-91df-46cb-b962-adadf3d639ca
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: be3c3ede-d2ea-4b60-a8cc-800159cc4d83
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column calendar_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7c1fc006-032a-4dfe-99a3-b6055cbd7435
+		summarizeBy: none
+		sourceColumn: calendar_date
+
+		variation Variation
+			isDefault
+			relationship: e89f92b7-3a68-413a-9e3c-55faafa30f96
+			defaultHierarchy: LocalDateTable_cb2dfc5f-d15b-40e7-bf18-3057010abc86.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column calendar_year
+		dataType: int64
+		formatString: 0
+		lineageTag: f7a99431-ec0a-4e84-8925-dc4f35a5c417
+		summarizeBy: none
+		sourceColumn: calendar_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 451d7751-329c-4b77-8404-6015448ace9a
+		summarizeBy: none
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 5e09726b-f9be-4b1f-bf6b-0dfec9f46dbb
+		summarizeBy: none
+		sourceColumn: month_name
+		sortByColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 4dd48b74-7a0a-4786-86da-a60335a9bff8
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 970b38ab-42b4-4744-b523-197b9e864882
+		summarizeBy: none
+		sourceColumn: quarter_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost", "portfolio_logistics"),
+				  #"Navigation 1" = Source{[Schema = "portfolio_logistics", Item = "dim_date"]}[Data]
+				in
+				  #"Navigation 1"
+
